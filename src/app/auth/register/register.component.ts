@@ -1,4 +1,7 @@
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
+
+import { registerAction } from '../store/actions';
 
 @Component({
   selector: 'app-register',
@@ -6,11 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  constructor() {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
 
-  onSubmit(formValues: any) {
+  onSubmit(formValues) {
     console.log(formValues);
+    this.store.dispatch(registerAction(formValues));
   }
 }
