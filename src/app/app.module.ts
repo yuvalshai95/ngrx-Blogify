@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment.prod';
+import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,10 +9,10 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 
 // run redux devtool only in dev not in production
-const DEV = environment.production ? [] : [StoreDevtoolsModule.instrument({ maxAge: 25 })];
+const DEV = environment.production ? [] : [StoreDevtoolsModule.instrument({ maxAge: 50 })];
 
 @NgModule({
-  imports: [BrowserModule, AppRoutingModule, AuthModule, StoreModule.forRoot([]), ...DEV],
+  imports: [BrowserModule, AppRoutingModule, AuthModule, StoreModule.forRoot({}), ...DEV],
   declarations: [AppComponent],
   providers: [],
   bootstrap: [AppComponent],

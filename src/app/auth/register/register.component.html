@@ -1,6 +1,7 @@
 <header class="header">
   <mat-icon>whatshot</mat-icon>
   <h1>Blogify</h1>
+  {{ isSubmitting$ | async }}
 </header>
 <main class="body">
   <h2>Sign up</h2>
@@ -22,9 +23,9 @@
     <input type="password" ngModel name="password" required placeholder="password" #password="ngModel" />
     <!-- <p class="errors" *ngIf="password.touched && password.invalid" >Error in Password! {{password.errors|json}}</p> -->
     <button
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || (isSubmitting$ | async)"
       type="submit"
-      [ngClass]="{ 'btn-signup': true, disabled: form.invalid }"
+      [ngClass]="{ 'btn-signup': true, disabled: form.invalid || (isSubmitting$ | async) }"
     >
       Sign up
     </button>
