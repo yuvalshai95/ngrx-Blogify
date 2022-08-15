@@ -2,8 +2,11 @@ import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { registerAction } from 'src/app/auth/store/actions';
+import { registerAction } from 'src/app/auth/store/actions/register.action';
 import { isSubmittingSelector } from 'src/app/auth/store/selectors';
+import { AuthService } from '../services/auth.service';
+import { RegisterRequest } from '../types/register-request-form.interfaces';
+import { AuthState } from '../types/auth-state.interface';
 
 @Component({
   selector: 'app-register',
@@ -11,19 +14,24 @@ import { isSubmittingSelector } from 'src/app/auth/store/selectors';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  isSubmitting$: Observable<boolean>;
+  isSubmitting$: Observable<any>;
 
-  constructor(private store: Store) {}
+  // constructor(private store: Store<{ register: AuthState }>, public readonly service: AuthService) {}
+  constructor(private store: Store, public readonly service: AuthService) {}
 
   ngOnInit() {
     this.initializeValues();
   }
 
   initializeValues() {
+    // this.isSubmitting$ = this.store.select((state: { register: AuthState }) => state.register.isSubmitting);
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
   }
 
-  onSubmit(formValues) {
-    this.store.dispatch(registerAction(formValues));
+  onSubmit(formValues: { username: string; email: string; password: string }) {
+    const request: RegisterRequest = {
+      user: { ...formValues },
+    };
+    this.store.dispatch(registerAction({ request }));
   }
 }
