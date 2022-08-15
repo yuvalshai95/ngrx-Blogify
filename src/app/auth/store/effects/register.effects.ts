@@ -1,7 +1,9 @@
+import { LocalstorageService } from './../../../shared/services/localstorage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
 import {
@@ -19,14 +21,27 @@ export class RegisterEffects {
       switchMap(({ request }) => {
         return this.authService.register(request).pipe(
           map((currentUser: CurrentUser) => {
-            return registerSuccessAction({ currentUser });
+            this.localstorageService.setToLocalStorage('token', currentUser.token);
+            return registerSuccessAction({ currentUser }); // Action 1
           }),
-          catchError(() => {
-            return of(registerFailureAction());
+          catchError((httpErrorRes: HttpErrorResponse) => {
+            // Action 2
+            return of(registerFailureAction({ errors: httpErrorRes.error.errors })); // the api give back error object with error messages(the last .errors is from the api)
           })
         );
       })
     )
+  );
+
+  redirectAfterSubmit$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(registerSuccessAction),
+        tap(() => {
+          this.router.navigateByUrl('/');
+        })
+      ),
+    { dispatch: false }
   );
 
   // load$ = createEffect(() => this.actions$.pipe(
@@ -38,6 +53,7 @@ export class RegisterEffects {
   constructor(
     public readonly actions$: Actions,
     public readonly authService: AuthService,
+    public readonly localstorageService: LocalstorageService,
     public readonly router: Router
   ) {}
 }

@@ -1,12 +1,16 @@
 <header class="header">
   <mat-icon>whatshot</mat-icon>
   <h1>Blogify</h1>
-  <pre> isSubmitting$$: {{ isSubmitting$ | async }}</pre>
 </header>
 <main class="body">
   <h2>Sign up</h2>
   <a [routerLink]="['/login']">Already have an account?</a>
-  <p>BackEnd Errors</p>
+
+  <app-backend-error-messages
+    *ngIf="backendErrors$ | async"
+    [backendErrors]="backendErrors$ | async"
+  ></app-backend-error-messages>
+
   <form (ngSubmit)="onSubmit(form.value)" #form="ngForm" class="auth-form">
     <input
       type="text"

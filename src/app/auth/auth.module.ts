@@ -10,6 +10,8 @@ import { RegisterComponent } from 'src/app/auth/register/register.component';
 import { authReducers } from 'src/app/auth/store/reducers';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { RegisterEffects } from 'src/app/auth/store/effects/register.effects';
+import { BackErrorMessagesModule } from 'src/app/shared/modules/backendErrorMessages/backendErrorMessages.module';
+import { LocalstorageService } from 'src/app/shared/services/localstorage.service';
 
 const ROUTES = [
   {
@@ -23,12 +25,13 @@ const ROUTES = [
     CommonModule,
     FormsModule,
     MatIconModule,
+    BackErrorMessagesModule,
     RouterModule.forChild(ROUTES),
     StoreModule.forFeature('auth', authReducers),
     EffectsModule.forFeature([RegisterEffects]),
   ],
   declarations: [RegisterComponent],
-  providers: [AuthService],
+  providers: [AuthService, LocalstorageService],
   exports: [FormsModule],
 })
 export class AuthModule {}

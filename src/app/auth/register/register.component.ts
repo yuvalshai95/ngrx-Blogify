@@ -1,9 +1,10 @@
+import { BackendErrors } from './../types/backendErrors.interface';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { registerAction } from 'src/app/auth/store/actions/register.action';
-import { isSubmittingSelector } from 'src/app/auth/store/selectors';
+import { isSubmittingSelector, validationErrorsSelector } from 'src/app/auth/store/selectors';
 import { AuthService } from '../services/auth.service';
 import { RegisterRequest } from '../types/register-request-form.interfaces';
 import { AuthState } from '../types/auth-state.interface';
@@ -14,7 +15,8 @@ import { AuthState } from '../types/auth-state.interface';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  isSubmitting$: Observable<any>;
+  isSubmitting$: Observable<boolean>;
+  backendErrors$: Observable<BackendErrors | null>;
 
   // constructor(private store: Store<{ register: AuthState }>, public readonly service: AuthService) {}
   constructor(private store: Store, public readonly service: AuthService) {}
@@ -26,6 +28,7 @@ export class RegisterComponent implements OnInit {
   initializeValues() {
     // this.isSubmitting$ = this.store.select((state: { register: AuthState }) => state.register.isSubmitting);
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
+    this.backendErrors$ = this.store.pipe(select(validationErrorsSelector));
   }
 
   onSubmit(formValues: { username: string; email: string; password: string }) {
