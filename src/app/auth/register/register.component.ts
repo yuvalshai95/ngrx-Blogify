@@ -1,4 +1,4 @@
-import { BackendErrors } from './../types/backendErrors.interface';
+import { BackendErrors } from '../types/backend-errors.interface';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';

@@ -10,7 +10,7 @@ import { RegisterComponent } from 'src/app/auth/register/register.component';
 import { authReducers } from 'src/app/auth/store/reducers';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { RegisterEffects } from 'src/app/auth/store/effects/register.effects';
-import { BackErrorMessagesModule } from 'src/app/shared/modules/backendErrorMessages/backendErrorMessages.module';
+import { BackErrorMessagesModule } from 'src/app/shared/modules/backend-error-messages/backen-error-messages.module';
 import { LocalstorageService } from 'src/app/shared/services/localstorage.service';
 
 const ROUTES = [

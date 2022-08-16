@@ -1,8 +1,8 @@
-import { BackendErrors } from './../../types/backendErrors.interface';
+import { BackendErrors } from '../../types/backend-errors.interface';
 import { createAction, props } from '@ngrx/store';
 
 import { RegisterRequest } from 'src/app/auth/types/register-request-form.interfaces';
-import { ActionTypes } from 'src/app/auth/store/actions/actionTypes';
+import { ActionTypes } from 'src/app/auth/store/actions/action-types';
 import { CurrentUser } from 'src/app/shared/types/current-user.interface';
 
 // type is to help debug on redux
